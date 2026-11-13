@@ -1,0 +1,25 @@
+{
+  "name": "student/forum-refactor",
+  "description": "Nested forum replies lab: PHP 8.2+, MySQL/MariaDB, PDO, Bramus Router, Mustache",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.2",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
+    "ext-mbstring": "*",
+    "bramus/router": "^1.6",
+    "mustache/mustache": "^2.14"
+  },
+  "autoload": {
+    "psr-4": { "App\\": "app/" }
+  },
+  "config": {
+    "process-timeout": 0
+  },
+  "scripts": {
+    "serve": "@php -S 127.0.0.1:8000 -t public public/index.php",
+    "test": "@php tests/tree_test.php",
+    "test:http": "@php tests/http_test.php"
+  }
+}

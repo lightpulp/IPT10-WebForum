@@ -1,0 +1,39 @@
+<li class="comment indent-{{indent}}" id="comment-{{id}}">
+  <article class="comment-body">
+    <header class="comment-meta">
+      <img class="avatar" src="{{avatar}}" alt="" width="28" height="28">
+      <strong class="author">{{author}}</strong>
+      <time datetime="{{createdIso}}">{{createdAt}}</time>
+      <span class="depth-label">Depth {{depth}}</span>
+    </header>
+    <p class="comment-text">{{body}}</p>
+    <div class="comment-actions">
+      {{#loggedIn}}
+        {{#canReply}}
+        <details class="reply-box">
+          <summary>Reply</summary>
+          <form method="post" action="{{base}}/discussions/{{discussion.id}}/comments/{{id}}/replies">
+            <input type="hidden" name="csrf_token" value="{{csrf}}">
+            <label for="reply-body-{{id}}">Reply to {{author}}</label>
+            <textarea id="reply-body-{{id}}" name="body" rows="3" maxlength="{{maxLength}}" required></textarea>
+            <button type="submit" class="button">Post reply</button>
+          </form>
+        </details>
+        {{/canReply}}
+        {{^canReply}}
+        <span class="muted">Reply depth limit reached.</span>
+        {{/canReply}}
+      {{/loggedIn}}
+      {{^loggedIn}}
+        <a href="{{base}}/login?next=%2Fdiscussions%2F{{discussion.id}}">Log in to reply</a>
+      {{/loggedIn}}
+    </div>
+  </article>
+  {{#hasChildren}}
+  <ul class="replies{{#repliesFlat}} flat{{/repliesFlat}}" id="replies-{{id}}">
+    {{#children}}
+      {{> partials/comment}}
+    {{/children}}
+  </ul>
+  {{/hasChildren}}
+</li>

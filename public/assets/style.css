@@ -1,0 +1,234 @@
+/* PHP Learners Forum. One idea: the thread's branch lines carry the structure. */
+:root {
+  --bg: #edf1ef;
+  --surface: #fbfcfb;
+  --ink: #17242b;
+  --muted: #55666e;
+  --line: #c5d2cd;
+  --branch: #7fa396;
+  --accent: #1b6b58;
+  --accent-dark: #124c3e;
+  --accent-ink: #ffffff;
+  --danger: #a12d2d;
+  --danger-bg: #f8e9e7;
+  --ok-bg: #e2f1ea;
+  --focus: #0b57d0;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Source Sans 3", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+h1, h2 {
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 650;
+}
+h1 { font-size: 1.9rem; margin: 0 0 .5rem; }
+h2 { font-size: 1.25rem; margin: 2rem 0 .75rem; }
+
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { color: var(--accent-dark); }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: .5rem;
+  top: -4rem;
+  background: var(--surface);
+  padding: .5rem .75rem;
+  z-index: 10;
+}
+.skip-link:focus { top: .5rem; }
+
+/* Header and footer */
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1.5rem;
+  padding: .85rem max(1rem, calc((100% - 48rem) / 2));
+  background: var(--surface);
+  border-bottom: 2px solid var(--branch);
+}
+.brand { font-weight: 700; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+.account { display: flex; flex-wrap: wrap; gap: .25rem 1rem; align-items: center; }
+.inline-form { display: inline; margin: 0; }
+
+main {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+.narrow { max-width: 34rem; }
+
+.site-footer {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+/* Messages */
+.flash {
+  margin: 0 0 1rem;
+  padding: .65rem .9rem;
+  border-left: 4px solid var(--accent);
+  background: var(--ok-bg);
+}
+.flash-error { border-left-color: var(--danger); background: var(--danger-bg); }
+.form-errors {
+  margin: 0 0 1rem;
+  padding: .65rem .9rem .65rem 2rem;
+  border-left: 4px solid var(--danger);
+  background: var(--danger-bg);
+}
+.error-status { color: var(--muted); margin-top: 0; }
+
+/* Discussion list */
+.discussion-list { list-style: none; margin: 0; padding: 0; }
+.discussion-list li { padding: .9rem 0; border-top: 1px solid var(--line); }
+.discussion-list li:last-child { border-bottom: 1px solid var(--line); }
+.discussion-title { font-size: 1.2rem; font-weight: 600; }
+
+.meta { margin: .25rem 0 0; color: var(--muted); font-size: .95rem; }
+.discussion .meta { display: flex; align-items: center; gap: .5rem; }
+.opening { font-size: 1.15rem; margin: 1rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.muted { color: var(--muted); font-size: .95rem; }
+.empty { color: var(--muted); }
+
+.avatar { border-radius: 50%; flex: none; background: #cfdcd6; }
+
+/* Comment tree */
+.thread, .replies { list-style: none; margin: 0; padding: 0; }
+
+.thread > .comment { padding: 1rem 0; border-top: 1px solid var(--line); }
+.thread > .comment:last-child { border-bottom: 1px solid var(--line); }
+
+/* Each nested list draws the branch line; deeper replies sit further right. */
+.replies {
+  margin: .75rem 0 0 .9rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--branch);
+}
+.replies > .comment + .comment { margin-top: 1rem; }
+.replies[hidden] { display: none; }
+
+/* Past the indentation cap the branch line stays but the list stops moving right. */
+.replies.flat {
+  margin-left: 0;
+  padding-left: .75rem;
+  border-left-style: dotted;
+}
+
+.comment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .25rem .6rem;
+  font-size: .95rem;
+}
+.comment-meta time { color: var(--muted); }
+.depth-label {
+  margin-left: auto;
+  padding: 0 .5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: .85rem;
+}
+.comment-text {
+  margin: .4rem 0 .25rem;
+  max-width: 68ch;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.comment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .25rem 1.25rem;
+  font-size: .95rem;
+}
+.reply-box summary {
+  cursor: pointer;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.reply-box[open] { flex-basis: 100%; }
+.reply-box form { margin-top: .5rem; max-width: 34rem; }
+
+/* Forms */
+label { display: block; font-weight: 600; margin: .75rem 0 .25rem; }
+input[type="text"], input[type="email"], input[type="password"], textarea {
+  width: 100%;
+  padding: .55rem .65rem;
+  border: 1px solid #8ea29b;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+textarea { resize: vertical; }
+.hint { margin: .2rem 0 0; color: var(--muted); font-size: .9rem; }
+.stack .button { margin-top: 1rem; }
+
+.button, .toggle-replies, .link-button {
+  font: inherit;
+  cursor: pointer;
+}
+.button {
+  display: inline-block;
+  margin-top: .6rem;
+  padding: .5rem 1rem;
+  border: 0;
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.button:hover { background: var(--accent-dark); }
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+/* Added by collapse.js only. */
+.toggle-replies {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: .95rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (max-width: 34rem) {
+  h1 { font-size: 1.6rem; }
+  .replies { margin-left: .4rem; padding-left: .65rem; }
+}

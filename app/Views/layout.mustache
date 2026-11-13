@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{$title}}Forum{{/title}} - PHP Learners Forum</title>
+  <link rel="stylesheet" href="{{base}}/assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="{{base}}/">PHP Learners Forum</a>
+    <nav class="account" aria-label="Account">
+      {{#user}}
+        <span class="whoami">Signed in as <strong>{{username}}</strong></span>
+        <form method="post" action="{{base}}/logout" class="inline-form">
+          <input type="hidden" name="csrf_token" value="{{csrf}}">
+          <button type="submit" class="link-button">Log out</button>
+        </form>
+      {{/user}}
+      {{^user}}
+        <a href="{{base}}/login">Log in</a>
+        <a href="{{base}}/register">Register</a>
+      {{/user}}
+    </nav>
+  </header>
+
+  <main id="main">
+    {{#flash}}
+      <p class="flash flash-{{type}}" role="status">{{message}}</p>
+    {{/flash}}
+    {{$content}}{{/content}}
+  </main>
+
+  <footer class="site-footer">
+    <p>Anyone can read. Log in to reply. All times are UTC.</p>
+  </footer>
+  {{$scripts}}{{/scripts}}
+</body>
+</html>

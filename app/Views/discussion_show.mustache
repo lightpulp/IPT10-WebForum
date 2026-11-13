@@ -1,0 +1,52 @@
+{{< layout}}
+{{$title}}{{pageTitle}}{{/title}}
+{{$content}}
+<article class="discussion">
+  <header>
+    <h1>{{discussion.title}}</h1>
+    <p class="meta">
+      <img class="avatar" src="{{discussion.avatar}}" alt="" width="28" height="28">
+      <span>Started by <strong>{{discussion.author}}</strong> on
+        <time datetime="{{discussion.createdIso}}">{{discussion.createdAt}}</time></span>
+    </p>
+  </header>
+  <p class="opening">{{discussion.body}}</p>
+</article>
+
+<section class="thread-section" aria-labelledby="replies-heading">
+  <h2 id="replies-heading">Replies</h2>
+
+  {{#truncated}}
+  <p class="flash flash-error" role="status">This discussion is very large, so only part of it is shown.</p>
+  {{/truncated}}
+
+  {{#hasComments}}
+  <ul class="thread">
+    {{#comments}}
+      {{> partials/comment}}
+    {{/comments}}
+  </ul>
+  {{/hasComments}}
+  {{^hasComments}}
+  <p class="empty">No replies yet. Be the first to answer.</p>
+  {{/hasComments}}
+</section>
+
+<section class="new-comment" aria-labelledby="new-comment-heading">
+  <h2 id="new-comment-heading">Add a comment</h2>
+  {{#loggedIn}}
+  <form method="post" action="{{base}}/discussions/{{discussion.id}}/comments">
+    <input type="hidden" name="csrf_token" value="{{csrf}}">
+    <label for="new-comment-body">Your comment</label>
+    <textarea id="new-comment-body" name="body" rows="4" maxlength="{{maxLength}}" required></textarea>
+    <button type="submit" class="button">Post comment</button>
+  </form>
+  {{/loggedIn}}
+  {{^loggedIn}}
+  <p><a href="{{base}}/login?next=%2Fdiscussions%2F{{discussion.id}}">Log in</a> or
+     <a href="{{base}}/register">register</a> to join the discussion.</p>
+  {{/loggedIn}}
+</section>
+{{/content}}
+{{$scripts}}<script src="{{base}}/assets/collapse.js" defer></script>{{/scripts}}
+{{/layout}}

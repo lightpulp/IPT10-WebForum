@@ -1,0 +1,22 @@
+{{< layout}}
+{{$title}}Discussions{{/title}}
+{{$content}}
+<section class="narrow">
+  <h1>Discussions</h1>
+  {{#hasItems}}
+  <ul class="discussion-list">
+    {{#discussions}}
+    <li>
+      <a class="discussion-title" href="{{base}}/discussions/{{id}}">{{title}}</a>
+      <p class="meta">Started by {{author}} on <time datetime="{{createdIso}}">{{createdAt}}</time>.
+        {{commentCount}} comments.</p>
+    </li>
+    {{/discussions}}
+  </ul>
+  {{/hasItems}}
+  {{^hasItems}}
+  <p>There are no discussions yet.</p>
+  {{/hasItems}}
+</section>
+{{/content}}
+{{/layout}}
